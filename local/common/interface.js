@@ -1,16 +1,25 @@
 $(function(){
   
   $('#runButton').bind('click', function(){
-    var url = window.location.pathname; //暂定，根据实际情况再改
+    var scriptLevelId = 0;
+    window.location.search.split(/[&\?]+/).forEach(function(str){
+      var kAndV = str.split('=');
+      if(kAndV[0] == 'script_level_id'){scriptLevelId = kAndV[1];}
+    });
+    
     $.ajax({
-      url: url+'/update_answer',
+      url: 'http://studio.istemedu.com/api/v1/script_levels/update_user_level',
       method: 'POST',
       data: {
-        code: BlocklyInterface.getCode()
+        id: scriptLevelId,
+        data: BlocklyInterface.getCode()
+      },
+      xhrFields: {
+        withCredentials: true
       }
     }).done(function(data){
-      
-    })
-  })
+      console.log(data);
+    });
+  });
   
-})
+});
