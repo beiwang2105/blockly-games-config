@@ -24,7 +24,7 @@ function initAnswer() {
       script: Blockly4Pi.Script,
       stage: Blockly4Pi.Stage,
       level: BlocklyGames.LEVEL
-    }
+    },
     xhrFields: {
       withCredentials: true
     }
