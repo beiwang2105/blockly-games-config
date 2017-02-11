@@ -1,17 +1,31 @@
-var scriptLevelID = null;
-
-$(function(){
-
-  initAnswer();
-  
-});
-
-$('#runButton').bind('click', function(){
+function initAnswer(){
   $.ajax({
-    url: 'http://studio.istemedu.com/api/v1/script_levels/update_user_level',
+    url: 'http://studio.istemedu.com/api/v1/script_levels/get_answer',
+    method: 'GET',
+    data: {
+      script: params['script'],//Blockly4Pi.Script,
+      stage: params['stage'],//Blockly4Pi.Stage,
+      level: params['level']//BlocklyGames.LEVEL
+    },
+    xhrFields: {
+      withCredentials: true
+    }
+  }).done(function(data){
+    console.log(data);
+    if(data['user_level'] != null && data['user_level']['data'] != null){
+      BlocklyInterface.setCode(data['user_level']['data']);
+    };
+  });
+};
+
+function saveAnswer(){
+  $.ajax({
+    url: 'http://studio.istemedu.com/api/v1/script_levels/answer',
     method: 'POST',
     data: {
-      id: scriptLevelId(),
+      script: params['script'],//Blockly4Pi.Script,
+      stage: params['stage'],//Blockly4Pi.Stage,
+      level: params['level'],//BlocklyGames.LEVEL
       data: BlocklyInterface.getCode()
     },
     xhrFields: {
@@ -20,24 +34,32 @@ $('#runButton').bind('click', function(){
   }).done(function(data){
     console.log(data);
   });
-});
+};
 
-function initAnswer() {
+function standardAnswer(){
   $.ajax({
-    url: 'http://studio.istemedu.com/api/v1/script_levels/'+scriptLevelId(),
-    method: 'GET',
+    url: 'http://studio.istemedu.com/api/v1/script_levels/admin_answer',
+    method: 'POST',
+    data: {
+      script: params['script'],//Blockly4Pi.Script,
+      stage: params['stage'],//Blockly4Pi.Stage,
+      level: params['level'],//BlocklyGames.LEVEL
+      data: BlocklyInterface.getCode()
+    },
     xhrFields: {
       withCredentials: true
     }
   }).done(function(data){
     console.log(data);
   });
-};
+}
 
-function scriptLevelId(){
+var params = {};
+function getScriptLevel(){
   window.location.search.split(/[&\?]+/).forEach(function(str){
     var kAndV = str.split('=');
-    if(kAndV[0] == 'script_level_id'){scriptLevelID = kAndV[1];}
+    params[kAndV[0]] = kAndV[1];
   });
-  return scriptLevelID;
 };
+
+getScriptLevel();
