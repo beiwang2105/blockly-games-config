@@ -64,7 +64,6 @@
   } catch (e) {
     // Don't even think of throwing an error.
   }
-  var debug = true;//全局使用debug模式
   script.src = '' + appName + '/generated/' + lang +
       (debug ? '/uncompressed.js' : '/compressed.js');
   script.type = 'text/javascript';
