@@ -158,7 +158,7 @@ BlocklyInterface.saveToLocalStorage = function() {
  */
 BlocklyInterface.indexPage = function() {
   window.location = (BlocklyGames.IS_HTML ? 'index.html' : './') +
-      '?lang=' + BlocklyGames.LANG;
+  '?lang=' + BlocklyGames.LANG + '&script=' + BlocklyGames.SCRIPT + '&stage=' + BlocklyGames.STAGE;
 };
 
 /**
@@ -185,9 +185,7 @@ BlocklyInterface.changeLanguage = function() {
  */
 BlocklyInterface.nextLevel = function() {
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-    window.location = window.location.protocol + '//' +
-        window.location.host + window.location.pathname +
-        '?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL + 1);
+    window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?lang=' + BlocklyGames.LANG + '&script=' + BlocklyGames.SCRIPT + '&stage=' + BlocklyGames.STAGE + '&level=' + (BlocklyGames.LEVEL + 1);
   } else {
     BlocklyInterface.indexPage();
   }

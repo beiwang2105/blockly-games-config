@@ -25,7 +25,6 @@
 
 goog.provide('BlocklyInterface');
 
-goog.require('Config');
 goog.require('Blockly');
 goog.require('BlocklyGames');
 goog.require('BlocklyGames.Msg');
@@ -47,7 +46,8 @@ BlocklyInterface.init = function() {
   // Disable the link button if page isn't backed by App Engine storage.
   var linkButton = document.getElementById('linkButton');
   if ('BlocklyStorage' in window) {
-    BlocklyStorage['HTTPREQUEST_ERROR'] = BlocklyGames.getMsg('Games_httpRequestError');
+    BlocklyStorage['HTTPREQUEST_ERROR'] =
+        BlocklyGames.getMsg('Games_httpRequestError');
     BlocklyStorage['LINK_ALERT'] = BlocklyGames.getMsg('Games_linkAlert');
     BlocklyStorage['HASH_ERROR'] = BlocklyGames.getMsg('Games_hashError');
     BlocklyStorage['XML_ERROR'] = BlocklyGames.getMsg('Games_xmlError');
@@ -62,7 +62,8 @@ BlocklyInterface.init = function() {
 
   var languageMenu = document.getElementById('languageMenu');
   if (languageMenu) {
-    languageMenu.addEventListener('change',BlocklyInterface.changeLanguage, true);
+    languageMenu.addEventListener('change',
+        BlocklyInterface.changeLanguage, true);
   }
 
   // Switch to zero-based indexing so that later JS levels match the blocks.
@@ -94,8 +95,11 @@ BlocklyInterface.loadBlocks = function(defaultXml, inherit) {
     delete window.sessionStorage.loadOnceBlocks;
   }
 
-  var savedLevel = BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, BlocklyGames.LEVEL);
-  var inherited = inherit && BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,BlocklyGames.LEVEL - 1);
+  var savedLevel =
+      BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME, BlocklyGames.LEVEL);
+  var inherited = inherit &&
+      BlocklyGames.loadFromLocalStorage(BlocklyGames.NAME,
+                                        BlocklyGames.LEVEL - 1);
 
   var restore = loadOnce || savedLevel || inherited || defaultXml;
   if (restore) {
@@ -153,7 +157,8 @@ BlocklyInterface.saveToLocalStorage = function() {
  * Go to the index page.
  */
 BlocklyInterface.indexPage = function() {
-  window.location = (BlocklyGames.IS_HTML ? 'index.html' : './') + '?lang=' + BlocklyGames.LANG;
+  window.location = (BlocklyGames.IS_HTML ? 'index.html' : './') +
+  '?lang=' + BlocklyGames.LANG + '&script=' + BlocklyGames.SCRIPT + '&stage=' + BlocklyGames.STAGE;
 };
 
 /**
@@ -180,7 +185,7 @@ BlocklyInterface.changeLanguage = function() {
  */
 BlocklyInterface.nextLevel = function() {
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
-    window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?lang=' + BlocklyGames.LANG + '&level=' + (BlocklyGames.LEVEL + 1);
+    window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?lang=' + BlocklyGames.LANG + '&script=' + BlocklyGames.SCRIPT + '&stage=' + BlocklyGames.STAGE + '&level=' + (BlocklyGames.LEVEL + 1);
   } else {
     BlocklyInterface.indexPage();
   }
@@ -238,14 +243,17 @@ BlocklyInterface.eventSpam = function(e) {
   // Some devices have both mice and touch, but assume the two won't occur
   // within two seconds of each other.
   var touchMouseTime = 2000;
-  if (e.type == 'click' && BlocklyInterface.eventSpam.previousType_ == 'touchend' && BlocklyInterface.eventSpam.previousDate_ + touchMouseTime > Date.now()) {
+  if (e.type == 'click' &&
+      BlocklyInterface.eventSpam.previousType_ == 'touchend' &&
+      BlocklyInterface.eventSpam.previousDate_ + touchMouseTime > Date.now()) {
     e.preventDefault();
     e.stopPropagation();
     return true;
   }
   // Users double-click or double-tap accidentally.
   var doubleClickTime = 400;
-  if (BlocklyInterface.eventSpam.previousType_ == e.type && BlocklyInterface.eventSpam.previousDate_ + doubleClickTime > Date.now()) {
+  if (BlocklyInterface.eventSpam.previousType_ == e.type &&
+      BlocklyInterface.eventSpam.previousDate_ + doubleClickTime > Date.now()) {
     e.preventDefault();
     e.stopPropagation();
     return true;
@@ -266,7 +274,7 @@ BlocklyInterface.importInterpreter = function() {
   //  src="third-party/JS-Interpreter/compiled.js"></script>
   var script = document.createElement('script');
   script.setAttribute('type', 'text/javascript');
-  script.setAttribute('src', Config.url_prefix+'third-party/JS-Interpreter/compiled.js');
+  script.setAttribute('src', 'third-party/JS-Interpreter/compiled.js');
   document.head.appendChild(script);
 };
 
@@ -279,11 +287,11 @@ BlocklyInterface.importPrettify = function() {
   var link = document.createElement('link');
   link.setAttribute('rel', 'stylesheet');
   link.setAttribute('type', 'text/css');
-  link.setAttribute('href', Config.url_prefix+'common/prettify.css');
+  link.setAttribute('href', 'common/prettify.css');
   document.head.appendChild(link);
   var script = document.createElement('script');
   script.setAttribute('type', 'text/javascript');
-  script.setAttribute('src', Config.url_prefix+'common/prettify.js');
+  script.setAttribute('src', 'common/prettify.js');
   document.head.appendChild(script);
 };
 
