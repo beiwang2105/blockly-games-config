@@ -62,8 +62,7 @@ BlocklyDialogs.dialogDispose_ = null;
  * @param {Function} disposeFunc An optional function to call when the dialog
  *     closes.  Normally used for unhooking events.
  */
-BlocklyDialogs.showDialog = function(content, origin, animate, modal, style,
-                                  disposeFunc) {
+BlocklyDialogs.showDialog = function(content, origin, animate, modal, style, disposeFunc) {
   if (BlocklyDialogs.isDialogVisible_) {
     BlocklyDialogs.hideDialog(false);
   }
@@ -86,9 +85,7 @@ BlocklyDialogs.showDialog = function(content, origin, animate, modal, style,
     var header = document.createElement('div');
     header.id = 'dialogHeader';
     dialog.appendChild(header);
-    BlocklyDialogs.dialogMouseDownWrapper_ =
-        Blockly.bindEvent_(header, 'mousedown', null,
-                           BlocklyDialogs.dialogMouseDown_);
+    BlocklyDialogs.dialogMouseDownWrapper_ = Blockly.bindEvent_(header, 'mousedown', null, BlocklyDialogs.dialogMouseDown_);
   }
   dialog.appendChild(content);
   content.className = content.className.replace('dialogHiddenContent', '');
@@ -364,7 +361,7 @@ BlocklyDialogs.congratulations = function() {
     var code = Blockly.JavaScript.workspaceToCode(BlocklyGames.workspace);
     code = BlocklyInterface.stripCode(code);
     var noComments = code.replace(/\/\/[^\n]*/g, '');  // Inline comments.
-    noComments = noComments.replace(/\/\*.*\*\//g, '');  /* Block comments. */
+    noComments = noComments.replace(/\/\*.*\*\//g, '');  // Block comments.
     noComments = noComments.replace(/[ \t]+\n/g, '\n');  // Trailing spaces.
     noComments = noComments.replace(/\n+/g, '\n');  // Blank lines.
     noComments = noComments.trim();
@@ -409,6 +406,36 @@ BlocklyDialogs.congratulations = function() {
   document.getElementById('dialogDoneText').textContent = text;
 };
 
+BlocklyDialogs.reTry = function(image_url, message) {
+  
+  var container = document.getElementById('containerStorage');
+  container.textContent = '';
+  var lines = message.split('\n');
+  
+  for (var i = 0; i < lines.length; i++) {
+    var p = document.createElement('p');
+    p.appendChild(document.createTextNode(lines[i]));
+    container.appendChild(p);
+  }
+
+  var content = document.getElementById('dialogStorage');
+  var origin = document.getElementById('linkButton');
+  var style = {
+    width: '50%',
+    left: '25%',
+    top: '5em'
+  };
+  BlocklyDialogs.showDialog(content, origin, true, true, style, BlocklyDialogs.stopDialogKeyDown);
+  BlocklyDialogs.startDialogKeyDown();
+  
+  var dialogHeader = document.getElementById('dialogHeader');
+  var image = document.createElement('img');
+  image.setAttribute('src', image_url);
+  image.setAttribute('width', '100px');
+  image.setAttribute('height', 'auto');
+  image.setAttribute('class', 'dialogHeader-image');
+  dialogHeader.appendChild(image);
+};
 /**
  * If the user preses enter, escape, or space, hide the dialog.
  * @param {!Event} e Keyboard event.

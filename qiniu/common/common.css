@@ -149,7 +149,7 @@ button:hover:not(:disabled) {
   margin: -10px -10px 15px;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
-  background-color: #ddd;
+/*  background-color: #ddd;*/
   cursor: move;
 }
 #dialog button {
@@ -158,3 +158,7 @@ button:hover:not(:disabled) {
 .readonly .blocklyMainBackground {
   stroke: none;
 }
+
+#dialogStorage{margin-left: 100px;}
+
+#dialogHeader .dialogHeader-image{margin-top: -50px;}
