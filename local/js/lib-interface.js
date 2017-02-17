@@ -186,6 +186,8 @@ BlocklyInterface.changeLanguage = function() {
 BlocklyInterface.nextLevel = function() {
   if (BlocklyGames.LEVEL < BlocklyGames.MAX_LEVEL) {
     window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?lang=' + BlocklyGames.LANG + '&script=' + BlocklyGames.SCRIPT + '&stage=' + BlocklyGames.STAGE + '&level=' + (BlocklyGames.LEVEL + 1);
+  }else if (BlocklyGames.LEVEL == BlocklyGames.MAX_LEVEL) {
+    // window.location = window.location.protocol + '//' + window.location.host + window.location.pathname + '?lang=' + BlocklyGames.LANG + '&script=' + BlocklyGames.SCRIPT + '&stage=' + BlocklyGames.STAGE + '&level=' + (BlocklyGames.LEVEL);
   } else {
     BlocklyInterface.indexPage();
   }
