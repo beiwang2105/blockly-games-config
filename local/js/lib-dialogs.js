@@ -94,7 +94,7 @@ BlocklyDialogs.showDialog = function(content, origin, animate, modal, style, dis
     // Check that the dialog wasn't closed during opening.
     if (BlocklyDialogs.isDialogVisible_) {
       dialog.style.visibility = 'visible';
-      dialog.style.zIndex = 10;
+      dialog.style.zIndex = 20;
       border.style.visibility = 'hidden';
     }
   }
