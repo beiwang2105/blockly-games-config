@@ -109,6 +109,55 @@ BlocklyDialogs.showDialog = function(content, origin, animate, modal, style, dis
   }
 };
 
+BlocklyDialogs.showDialogForStage = function(content, origin, animate, modal, style, disposeFunc) {
+  if (BlocklyDialogs.isDialogVisible_) {
+    BlocklyDialogs.hideDialog(false);
+  }
+  Blockly.hideChaff(true);
+  BlocklyDialogs.isDialogVisible_ = true;
+  BlocklyDialogs.dialogOrigin_ = origin;
+  BlocklyDialogs.dialogDispose_ = disposeFunc;
+  var dialog = document.getElementById('dialog');
+  var shadow = document.getElementById('dialogShadow');
+  var border = document.getElementById('dialogBorder');
+
+  // Copy all the specified styles to the dialog.
+  for (var name in style) {
+    dialog.style[name] = style[name];
+  }
+  if (modal) {
+    shadow.style.visibility = 'visible';
+    shadow.style.opacity = 0.3;
+    shadow.style.zIndex = 21;
+    var header = document.createElement('div');
+    header.id = 'dialogHeader';
+    var inHtml = document.createElement('div');
+    inHtml.innerHTML = content;
+    header.appendChild(inHtml);
+    dialog.appendChild(header);
+    BlocklyDialogs.dialogMouseDownWrapper_ = Blockly.bindEvent_(header, 'mousedown', null, BlocklyDialogs.dialogMouseDown_);
+  }
+  dialogHeader.style.cursor = 'pointer';
+
+  function endResult() {
+    // Check that the dialog wasn't closed during opening.
+    if (BlocklyDialogs.isDialogVisible_) {
+      dialog.style.visibility = 'visible';
+      dialog.style.zIndex = 71;
+      border.style.visibility = 'hidden';
+    }
+  }
+  if (animate && origin) {
+    BlocklyDialogs.matchBorder_(origin, false, 0.2);
+    BlocklyDialogs.matchBorder_(dialog, true, 0.8);
+    // In 175ms show the dialog and hide the animated border.
+    setTimeout(endResult, 175);
+  } else {
+    // No animation.  Just set the final state.
+    endResult();
+  }
+};
+
 /**
  * Horizontal start coordinate of dialog drag.
  */
@@ -437,6 +486,28 @@ BlocklyDialogs.reTry = function(image_url, message) {
   dialogHeader.appendChild(image);
 };
 /**
+ * show all of stages in nav 
+ */
+BlocklyDialogs.showStages = function(textContent){
+    var container = document.getElementById('containerStorage');
+    container.textContent = textContent;
+    var lines = container.textContent.split('\n');
+    var content = document.getElementById('dialogStorage');
+    var origin = document.getElementById('linkButton');
+    var style = {
+      width: '50%',
+      height: '50%',
+      left: '25%',
+      top: '5em',
+      padding: '20px',
+      cursor: 'pointer',
+      background: '#e7e8ea',
+    };
+    BlocklyDialogs.showDialogForStage(textContent, origin, true, true, style, BlocklyDialogs.stopDialogKeyDown);
+    BlocklyDialogs.startDialogKeyDown();
+    document.getElementById('showStageAll').onclick = function(){BlocklyDialogs.hideDialog(true);};
+}
+/**
  * If the user preses enter, escape, or space, hide the dialog.
  * @param {!Event} e Keyboard event.
  * @private
@@ -451,6 +522,7 @@ BlocklyDialogs.dialogKeyDown_ = function(e) {
       e.preventDefault();
     }
   }
+  document.getElementById('dialogShadow').style.visibility = 'hidden';
 };
 
 /**
