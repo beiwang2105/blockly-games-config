@@ -522,7 +522,6 @@ BlocklyDialogs.dialogKeyDown_ = function(e) {
       e.preventDefault();
     }
   }
-  document.getElementById('dialogShadow').style.visibility = 'hidden';
 };
 
 /**
