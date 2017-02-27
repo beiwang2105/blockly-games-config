@@ -505,7 +505,7 @@ BlocklyDialogs.showStages = function(textContent){
     };
     BlocklyDialogs.showDialogForStage(textContent, origin, true, true, style, BlocklyDialogs.stopDialogKeyDown);
     BlocklyDialogs.startDialogKeyDown();
-    document.getElementById('showStageAll').onclick = function(){BlocklyDialogs.hideDialog(true);};
+    document.getElementById('dialogShadow').onclick = function(){BlocklyDialogs.hideDialog(true);};
 }
 /**
  * If the user preses enter, escape, or space, hide the dialog.
