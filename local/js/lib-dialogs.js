@@ -135,7 +135,7 @@ BlocklyDialogs.showDialogForStage = function(content, origin, animate, modal, st
     inHtml.innerHTML = content;
     header.appendChild(inHtml);
     dialog.appendChild(header);
-    BlocklyDialogs.dialogMouseDownWrapper_ = Blockly.bindEvent_(header, 'mousedown', null, BlocklyDialogs.dialogMouseDown_);
+    // BlocklyDialogs.dialogMouseDownWrapper_ = Blockly.bindEvent_(header, 'mousedown', null, BlocklyDialogs.dialogMouseDown_);
   }
   dialogHeader.style.cursor = 'pointer';
 
